@@ -2,8 +2,11 @@
 
 void ft_putstr(char *str);
 
-int main(void)
+int main(int argc, char **argv)
 {
-    ft_putstr("Hello, world!\n");
+    if (argc != 2)
+        return 1;
+    ft_putstr(argv[1]);
+    write(1, "\n", 1);
     return 0;
 }

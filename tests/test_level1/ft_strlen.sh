@@ -2,13 +2,28 @@
 
 BINARY="$1"
 
-"$BINARY" "" | grep -q "^0$" || exit 1
-"$BINARY" "a" | grep -q "^1$" || exit 1
-"$BINARY" "Hello" | grep -q "^5$" || exit 1
-"$BINARY" "42" | grep -q "^2$" || exit 1
-"$BINARY" "This is a longer test" | grep -q "^22$" || exit 1
-"$BINARY" "   " | grep -q "^3$" || exit 1
-"$BINARY" "!@#$%^&*()" | grep -q "^10$" || exit 1
+run_test() {
+    input="$1"
+    expected="$2"
+    
+    output=$("$BINARY" "$input")
+    if [ "$output" == "$expected" ]; then
+        echo "✅ Passed: \"$input\""
+    else
+        echo "❌ Failed: \"$input\""
+        echo "Expected: $expected"
+        echo "Got:      $output"
+        exit 1
+    fi
+}
+
+run_test "" "0"
+run_test "a" "1"
+run_test "Hello" "5"
+run_test "42" "2"
+run_test "This is a longer test" "21"
+run_test "   " "3"
+run_test "!@#$%^&*()" "10"
 
 echo "✅ All tests passed for ft_strlen!"
 exit 0
